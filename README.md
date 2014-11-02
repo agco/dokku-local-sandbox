@@ -55,17 +55,6 @@ This should print the available Dokku commands
 Deploy
 ------
 
-First create the application
-```
-ssh dokku_local create node-js-getting-started
-```
-
-set some environment variables
-```
-ssh dokku_local config:set node-js-getting-started FOO=BAR
-...
-```
-
 Clone a git repo and cd into the dir :
 ```
 git clone https://github.com/heroku/node-js-getting-started.git
@@ -77,8 +66,18 @@ Add a git remote to Dokku using the ssh alias :
 git remote add progrium dokku_local:node-js-getting-started
 ```
 
-And deploy
+Create the application definition
+```
+ssh dokku_local create node-js-getting-started
+```
+
+set some environment variables
+```
+ssh dokku_local config:set node-js-getting-started FOO=BAR
+...
+```
+
+Deploy
 ```
 git push progrium master
-
 ```
