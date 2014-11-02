@@ -28,7 +28,7 @@ Register the key with sshcommand
 cat ~/.ssh/id_dokku.pub | vagrant ssh -c "sudo sshcommand acl-add dokku progrium"
 ```
 
-Create a ssh config file
+Create an ssh config file
 ```
 vi ~/.ssh/config
 ```
