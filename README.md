@@ -1,8 +1,8 @@
 Prerequisites
 -------------
-Git
-Vagrant
-Virtualbox
+- Git
+- Vagrant
+- Virtualbox
 
 
 Getting Started
@@ -23,17 +23,17 @@ Create a new key pair
 ssh-keygen -t rsa -f ~/.ssh/id_dokku -N ""
 ```
 
-register the key with sshcommand
+Register the key with sshcommand
 ```
 cat ~/.ssh/id_dokku.pub | vagrant ssh -c "sudo sshcommand acl-add dokku progrium"
 ```
 
-subsequently setup a ssh config file to create an ssh alias
+Then setup a ssh config file
 ```
 vi ~/.ssh/config
 ```
 
-add the following :
+Add the following :
 
 ```
 Host dokku_local
@@ -44,7 +44,7 @@ RequestTTY yes
 User dokku
 ```
 
-At this point you can exec dokku commands over ssh, e.g. :
+At this point you should be able to exec dokku commands over ssh, e.g. :
 
 ```
 ssh dokku_local help
