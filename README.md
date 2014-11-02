@@ -71,7 +71,7 @@ Create the application definition
 ssh dokku_local create node-js-getting-started
 ```
 
-set some environment variables
+Set environment variables
 ```
 ssh dokku_local config:set node-js-getting-started FOO=BAR
 ...
