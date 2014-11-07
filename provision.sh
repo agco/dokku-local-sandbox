@@ -6,9 +6,14 @@ set -x
 set -o errexit
 
 apt-get update
+apt-get install -y git make curl software-properties-common
 
-wget -qO- https://raw.githubusercontent.com/neam/dokku/awaiting-prs/bootstrap.sh | DOKKU_REPO="https://github.com/neam/dokku.git" DOKKU_BRANCH="awaiting-prs" bash
-
+rm -rf dokku
+git clone https://github.com/neam/dokku.git
+cd dokku
+git fetch origin
+git checkout -b awaiting-prs origin/awaiting-prs
+sudo BUILD_STACK=true make install
 
 # update nginx.conf to support longer than 46 character hostnames (default value 64 which equals 46 chars)
 
@@ -30,7 +35,6 @@ if [ ! -f "/var/swap.1" ]; then
 fi
 
 # install htop and mosh
-
 apt-get install -y -q htop mosh
 
 # nsenter
@@ -47,6 +51,18 @@ if [ ! -f /usr/local/bin/nsenter ]; then
     chmod +x /usr/local/bin/docker-enter
 fi
 
+
 cd /var/lib/dokku/plugins
-git clone https://github.com/kristofsajdak/dokku-registry
+
+rm -rf dokku-registry
+git clone https://github.com/agco-adm/dokku-registry
+rm -rf dokku-docker-options
+git clone https://github.com/dyson/dokku-docker-options.git
+
 dokku plugins-install
+
+docker stop logspout
+docker rm logspout
+docker run -d -h $HOSTNAME --name logspout --restart=always -p 8000:8000 -v=/var/run/docker.sock:/tmp/docker.sock progrium/logspout $1
+
+

@@ -17,6 +17,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     vb.customize ["modifyvm", :id, "--memory", "1024"]
   end
 
-  config.vm.provision "shell", path: "provision.sh"
+  config.vm.provision "shell" do |s|
+    s.path = "provision.sh"
+    s.args = "#{ENV['LOGSPOUT_SYSLOG_URL']}"
+  end
 
 end
