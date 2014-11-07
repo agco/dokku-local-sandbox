@@ -14,8 +14,8 @@ vagrant up
 ```
 
 
-Setup SSH config
-----------------
+Setup SSH
+---------
 
 Create a new key pair
 
