@@ -12,7 +12,6 @@ rm -rf dokku
 git clone https://github.com/progrium/dokku.git
 cd dokku
 git fetch origin
-git checkout -b awaiting-prs origin/awaiting-prs
 sudo BUILD_STACK=true make install
 
 # update nginx.conf to support longer than 46 character hostnames (default value 64 which equals 46 chars)
