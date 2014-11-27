@@ -5,8 +5,8 @@ set -x
 # fail on any error
 set -o errexit
 
-apt-get update
-apt-get install -y git make curl software-properties-common
+sudo apt-get update
+sudo apt-get install -y git make curl software-properties-common
 
 rm -rf dokku
 git clone https://github.com/progrium/dokku.git
@@ -35,7 +35,7 @@ if [ ! -f "/var/swap.1" ]; then
 fi
 
 # install htop and mosh
-apt-get install -y -q htop mosh
+sudo apt-get install -y -q htop mosh
 
 # nsenter
 
