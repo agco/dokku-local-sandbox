@@ -9,7 +9,7 @@ apt-get update
 apt-get install -y git make curl software-properties-common
 
 rm -rf dokku
-git clone https://github.com/neam/dokku.git
+git clone https://github.com/progrium/dokku.git
 cd dokku
 git fetch origin
 git checkout -b awaiting-prs origin/awaiting-prs
