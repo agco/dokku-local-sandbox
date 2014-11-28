@@ -6,7 +6,7 @@ set -x
 set -o errexit
 
 sudo apt-get update
-sudo apt-get install -y git make curl software-properties-common
+sudo apt-get install -y git make curl software-properties-common gcc
 
 rm -rf dokku
 git clone https://github.com/progrium/dokku.git
@@ -16,7 +16,7 @@ sudo BUILD_STACK=true make install
 
 # update nginx.conf to support longer than 46 character hostnames (default value 64 which equals 46 chars)
 
-sed -i 's/server_names_hash_bucket_size 64;/server_names_hash_bucket_size 128;/' /etc/nginx/nginx.conf
+sudo sed -i 's/server_names_hash_bucket_size 64;/server_names_hash_bucket_size 128;/' /etc/nginx/nginx.conf
 cat /etc/nginx/nginx.conf | grep server
 /etc/init.d/nginx restart
 
@@ -45,9 +45,9 @@ if [ ! -f /usr/local/bin/nsenter ]; then
     cd util-linux-2.24
     ./configure --without-ncurses
     make nsenter
-    cp nsenter /usr/local/bin/
-    wget -qO- https://raw.githubusercontent.com/jpetazzo/nsenter/master/docker-enter > /usr/local/bin/docker-enter
-    chmod +x /usr/local/bin/docker-enter
+    sudo cp nsenter /usr/local/bin/
+    sudo wget -qO- https://raw.githubusercontent.com/jpetazzo/nsenter/master/docker-enter > /usr/local/bin/docker-enter
+    sudo chmod +x /usr/local/bin/docker-enter
 fi
 
 
@@ -58,10 +58,9 @@ git clone https://github.com/agco-adm/dokku-registry
 rm -rf dokku-docker-options
 git clone https://github.com/dyson/dokku-docker-options.git
 
-dokku plugins-install
+sudo dokku plugins-install
 
-docker stop logspout
-docker rm logspout
-docker run -d -h $HOSTNAME --name logspout --restart=always -p 8000:8000 -v=/var/run/docker.sock:/tmp/docker.sock progrium/logspout $1
-
-
+if sudo docker ps | grep "logspout" 
+    then sudo docker stop logspout && sudo docker rm logspout
+fi
+sudo docker run -d -h $HOSTNAME --name logspout --restart=always -p 8000:8000 -v=/var/run/docker.sock:/tmp/docker.sock progrium/logspout $1
