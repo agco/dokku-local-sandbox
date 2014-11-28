@@ -46,21 +46,23 @@ if [ ! -f /usr/local/bin/nsenter ]; then
     ./configure --without-ncurses
     make nsenter
     sudo cp nsenter /usr/local/bin/
-    sudo wget -qO- https://raw.githubusercontent.com/jpetazzo/nsenter/master/docker-enter > /usr/local/bin/docker-enter
+    sudo wget -qO- https://raw.githubusercontent.com/jpetazzo/nsenter/master/docker-enter > docker-enter
+    sudo mv docker-enter /usr/local/bin/docker-enter
     sudo chmod +x /usr/local/bin/docker-enter
 fi
 
 
 cd /var/lib/dokku/plugins
 
-rm -rf dokku-registry
-git clone https://github.com/agco-adm/dokku-registry
-rm -rf dokku-docker-options
-git clone https://github.com/dyson/dokku-docker-options.git
+sudo rm -rf dokku-registry
+sudo git clone https://github.com/agco-adm/dokku-registry
+sudo rm -rf dokku-docker-options
+sudo git clone https://github.com/dyson/dokku-docker-options.git
 
 sudo dokku plugins-install
 
 if sudo docker ps | grep "logspout" 
     then sudo docker stop logspout && sudo docker rm logspout
 fi
+
 sudo docker run -d -h $HOSTNAME --name logspout --restart=always -p 8000:8000 -v=/var/run/docker.sock:/tmp/docker.sock progrium/logspout $1
